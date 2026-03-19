@@ -15,3 +15,13 @@ def mask_account_card(par:str) -> str:
     mask = f'{bar}{number}'
 
     return mask
+
+def get_date(par:str) -> str:
+    """" Returns the format date"""
+    import re
+    par = re.sub(
+        r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{6})',
+        r'\g<day>.\g<month>.\g<year>',
+        par
+    )
+    return par
