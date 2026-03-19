@@ -1,8 +1,8 @@
 def mask_account_card(par:str) -> str:
     """" Returns the mask card number or account"""
     import re
-    from masks import get_mask_account
-    from masks import get_mask_card_number
+    from src.masks import get_mask_account
+    from src.masks import get_mask_card_number
 
     foo = re.sub(r'[^\d+]', '', par)
     bar = re.sub(r'[^\D\s$]', '', par)
