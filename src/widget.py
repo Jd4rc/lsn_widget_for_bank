@@ -13,9 +13,9 @@ def mask_account_card(par: str) -> str:
     else:
         number = get_mask_account(int(foo))
 
-    mask = f"{bar}{number}"
+    message = f"{bar}{number}"
 
-    return mask
+    return message
 
 
 def get_date(par: str) -> str:
