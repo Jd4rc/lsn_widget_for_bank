@@ -13,7 +13,7 @@ def filter_by_state(par1: list, par2: str = "EXECUTED") -> list:
     return result
 
 
-def sort_by_date(par1=list, par2: bool = True) -> list:
+def sort_by_date(par1: list, par2: bool = True) -> list:
     """ "
     Принимает список словарей и необязательный параметр,
     задающий порядок сортировки. Возвращает отсортированный список
