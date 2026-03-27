@@ -1,19 +1,19 @@
-def mask_account_card(par: str) -> str:
+def mask_account_card(account_card: str) -> str:
     """ " Returns the mask card number or account"""
     import re
 
     from src.masks import get_mask_account
     from src.masks import get_mask_card_number
 
-    foo = re.sub(r"[^\d+]", "", par)
-    bar = re.sub(r"[^\D\s$]", "", par)
+    number_account_card = re.sub(r"[^\d+]", "", account_card)
+    string_account_card = re.sub(r"[^\D\s$]", "", account_card)
 
-    if len(foo) == 16:
-        number = get_mask_card_number(int(foo))
+    if len(number_account_card) == 16:
+        number = get_mask_card_number(int(number_account_card))
     else:
-        number = get_mask_account(int(foo))
+        number = get_mask_account(int(number_account_card))
 
-    message = f"{bar}{number}"
+    message = f"{string_account_card}{number}"
 
     return message
 
