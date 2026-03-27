@@ -1,4 +1,4 @@
-def filter_by_state(par1: list, par2: str = "EXECUTED") -> list:
+def filter_by_state(list_to_filter: list, key_to_filter: str = "EXECUTED") -> list:
     """ "
     Принимает список словарей и опционально значение для ключа,
     возвращает новый список словарей, содержащий только те словари,
@@ -6,14 +6,14 @@ def filter_by_state(par1: list, par2: str = "EXECUTED") -> list:
     """
     result = []
 
-    for el in par1:
-        if el["state"] == par2:
+    for el in list_to_filter:
+        if el["state"] == key_to_filter:
             result.append(el)
 
     return result
 
 
-def sort_by_date(unsorted_data: list, reverse: bool =True) -> list:
+def sort_by_date(unsorted_data: list, reverse: bool = True) -> list:
     """ "
     Принимает список словарей и параметр
     направления сортировки. Возвращает новый список, отсортированный
