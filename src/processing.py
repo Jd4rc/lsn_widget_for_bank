@@ -13,13 +13,13 @@ def filter_by_state(par1: list, par2: str = "EXECUTED") -> list:
     return result
 
 
-def sort_by_date(par1: list, par2: bool = True) -> list:
+def sort_by_date(unsorted_data: list, reverse: bool =True) -> list:
     """ "
-    Принимает список словарей и необязательный параметр,
-    задающий порядок сортировки. Возвращает отсортированный список
-    словарей по дате
+    Принимает список словарей и параметр
+    направления сортировки. Возвращает новый список, отсортированный
+    по ключу 'date'
     """
 
-    sorted_data = sorted(par1, key=lambda k: k["date"], reverse=par2)
+    sorted_data = sorted(unsorted_data, key=lambda item: item["date"], reverse=reverse)
 
     return sorted_data
