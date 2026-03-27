@@ -1,4 +1,4 @@
-def filter_by_state(list_to_filter: list, key_to_filter: str = "EXECUTED") -> list:
+def filter_by_state(list_to_filter: list[dict], key_to_filter: str = "EXECUTED") -> list[dict] | list:
     """ "
     Принимает список словарей и опционально значение для ключа,
     возвращает новый список словарей, содержащий только те словари,
@@ -13,7 +13,7 @@ def filter_by_state(list_to_filter: list, key_to_filter: str = "EXECUTED") -> li
     return result
 
 
-def sort_by_date(unsorted_data: list, reverse: bool = True) -> list:
+def sort_by_date(unsorted_data: list[dict], reverse: bool = True) -> list[dict]:
     """ "
     Принимает список словарей и параметр
     направления сортировки. Возвращает новый список, отсортированный

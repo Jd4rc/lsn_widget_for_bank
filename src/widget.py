@@ -18,7 +18,7 @@ def mask_account_card(account_card: str) -> str:
     return message
 
 
-def get_date(date: str) -> str:
+def get_date(date: str) -> str | None:
     """ " Returns the formatted date"""
     import re
 
