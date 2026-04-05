@@ -2,22 +2,22 @@ import pytest
 from src.widget import mask_account_card, get_date
 
 def test_mask_account_card_with_base_1(base_mask_account_1):
-    assert mask_account_card(base_mask_account_1)
+    assert mask_account_card(base_mask_account_1) == 'Счет **4305'
 
 def test_mask_account_card_with_base_2(base_mask_account_2):
-    assert mask_account_card(base_mask_account_2)
+    assert mask_account_card(base_mask_account_2) == 'Счет не мой **1505'
 
 def test_mask_account_card_with_base_3(base_mask_account_3):
-    assert mask_account_card(base_mask_account_3)
+    assert mask_account_card(base_mask_account_3) == 'Счет Олега **0195'
 
 def test_mask_account_card_with_base_4(base_mask_account_4):
-    assert mask_account_card(base_mask_account_4)
+    assert mask_account_card(base_mask_account_4) == 'Maestro 7000 79** **** 9184'
 
 def test_mask_account_card_with_base_5(base_mask_account_5):
-    assert mask_account_card(base_mask_account_5)
+    assert mask_account_card(base_mask_account_5) == 'Visa Platinum 7000 79** **** 9854'
 
 def test_mask_account_card_with_base_6(base_mask_account_6):
-    assert mask_account_card(base_mask_account_6)
+    assert mask_account_card(base_mask_account_6) == 'Visa 7000 79** **** 9854'
 
 @pytest.mark.parametrize('mask_account, expected', [
     ('', ValueError),
