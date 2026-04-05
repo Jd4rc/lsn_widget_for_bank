@@ -1,4 +1,6 @@
-def mask_account_card(account_card: str) -> str:
+def mask_account_card(
+        account_card: str
+) -> str:
     """ " Returns the mask card number or account"""
     import re
 
@@ -18,7 +20,9 @@ def mask_account_card(account_card: str) -> str:
     return message
 
 
-def get_date(date: str) -> str | None:
+def get_date(
+        date: str
+) -> str | None:
     """ " Returns the formatted date"""
     import re
 
