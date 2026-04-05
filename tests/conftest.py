@@ -49,5 +49,19 @@ def base_mask_account_5():
 def base_mask_account_6():
     return 'Visa 7000792289609854'
 
+@pytest.fixture
+def base_date_1():
+    return '2024-03-11T02:26:18.671407'
+
+@pytest.fixture
+def base_date_2():
+    return '2022-07-11T03:26:18.671407'
+
+@pytest.fixture
+def base_date_3():
+    return '2021-01-02T02:26:18.671407'
+
+
+
 
 
