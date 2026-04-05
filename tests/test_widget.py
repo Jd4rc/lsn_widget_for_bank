@@ -1,5 +1,5 @@
 import pytest
-from src.widget import mask_account_card
+from src.widget import mask_account_card, get_date
 
 def test_mask_account_card_with_base_1(base_mask_account_1):
     assert mask_account_card(base_mask_account_1)
@@ -29,3 +29,26 @@ def test_mask_account_card_with_base_6(base_mask_account_6):
 def test_mask_account_card_with_invalid_data_parametrized(mask_account, expected):
     with pytest.raises(expected):
         mask_account_card(mask_account)
+
+def test_get_date_with_base_1(base_date_1):
+    assert get_date(base_date_1)
+
+def test_get_date_with_base_2(base_date_2):
+    assert get_date(base_date_2)
+
+def test_get_date_with_base_3(base_date_3):
+    assert get_date(base_date_3)
+
+@pytest.mark.parametrize('date_str, expected', [
+    ('', ValueError),
+    (123, TypeError),
+    (True, TypeError),
+    (None, TypeError),
+    ('2022-07-11', ValueError),
+    ('Maestro 2022-07-11', ValueError),
+    ('2022.07.11', ValueError),
+    ([1, 2, 3], TypeError)
+])
+def test_get_date_with_invalid_data_parametrized(date_str, expected):
+    with pytest.raises(expected):
+        get_date(date_str)
