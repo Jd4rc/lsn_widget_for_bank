@@ -31,13 +31,13 @@ def test_mask_account_card_with_invalid_data_parametrized(mask_account, expected
         mask_account_card(mask_account)
 
 def test_get_date_with_base_1(base_date_1):
-    assert get_date(base_date_1)
+    assert get_date(base_date_1) == '11.03.2024'
 
 def test_get_date_with_base_2(base_date_2):
-    assert get_date(base_date_2)
+    assert get_date(base_date_2) == '11.07.2022'
 
 def test_get_date_with_base_3(base_date_3):
-    assert get_date(base_date_3)
+    assert get_date(base_date_3) == '02.01.2021'
 
 @pytest.mark.parametrize('date_str, expected', [
     ('', ValueError),
