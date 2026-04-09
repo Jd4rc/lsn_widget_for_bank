@@ -22,8 +22,13 @@ def get_date(date: str) -> str | None:
     """ " Returns the formatted date"""
     import re
 
+    pattern = r"(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{6})"
+
+    if not re.fullmatch(pattern, date):
+        raise ValueError()
+
     formatted_date = re.sub(
-        r"(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{6})",
+        pattern,
         r"\g<day>.\g<month>.\g<year>",
         date,
     )
