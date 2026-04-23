@@ -7,3 +7,7 @@ def filter_by_currency(
     return (x for x in data if x["operationAmount"]["currency"]["code"] == currency)
 
 
+def transaction_descriptions(
+        data: list[dict[str, int | str | dict[str, dict[str, str]]]]
+) -> Iterator[str]:
+    return (x["description"] for x in data)
