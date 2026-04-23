@@ -104,6 +104,7 @@ def base_transactions_out_1():
         }
     )
 
+@pytest.fixture
 def base_transactions_out_2():
     return (
         {
@@ -123,7 +124,7 @@ def base_transactions_out_2():
         }
     )
 
-
+@pytest.fixture
 def base_transactions_out_3():
     return (
         {
