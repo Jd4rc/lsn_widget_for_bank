@@ -143,3 +143,16 @@ def base_transactions_out_3():
             "to": "Visa Platinum 8990922113665229"
         }
     )
+
+
+@pytest.fixture
+def base_descriptions_out_1():
+    return "Перевод организации"
+
+@pytest.fixture
+def base_descriptions_out_2():
+    return "Перевод со счета на счет"
+
+@pytest.fixture
+def base_descriptions_out_3():
+    return "Перевод со счета на счет"
