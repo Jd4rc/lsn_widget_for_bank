@@ -6,8 +6,10 @@ def filter_by_currency(
 ) -> Iterator[dict[str, int | str | dict[str, str]]]:
 
     for x in data:
+        if not isinstance(x, dict):
+            raise TypeError("тип элементов входных данных должен быть словарь")
         if "currency" not in x["operationAmount"]:
-            raise KeyError()
+            raise KeyError('для фильтрации необходимо наличие ключа \"currency\"')
         if x["operationAmount"]["currency"]["code"] == currency:
             yield x
 
