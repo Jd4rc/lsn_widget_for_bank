@@ -17,6 +17,11 @@ def test_filter_by_currency_with_rub(base_transactions_in, base_transactions_out
     assert next(i) == base_transactions_out_4
     assert next(i) == base_transactions_out_5
 
+def test_filter_by_currency_with_missing_currency(base_transactions_in):
+    i = filter_by_currency(base_transactions_in, "CNY")
+    with pytest.raises(StopIteration):
+        next(i)
+
 def test_filter_by_currency_without_currency(base_transactions_in_without_currency):
     with pytest.raises(KeyError):
         i = filter_by_currency(base_transactions_in_without_currency, "RUB")
