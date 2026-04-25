@@ -4,7 +4,12 @@ def filter_by_currency(
         data: list[dict[str, int | str | dict[str, dict[str, str]]]],
         currency: str
 ) -> Iterator[dict[str, int | str | dict[str, str]]]:
-    return (x for x in data if x["operationAmount"]["currency"]["code"] == currency)
+
+    for x in data:
+        if "currency" not in x["operationAmount"]:
+            raise KeyError()
+        if x["operationAmount"]["currency"]["code"] == currency:
+            yield x
 
 
 def transaction_descriptions(
