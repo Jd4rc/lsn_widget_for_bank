@@ -6,6 +6,8 @@ def filter_by_currency(
 ) -> Iterator[dict[str, int | str | dict[str, str]]]:
 
     for x in data:
+        if not isinstance(data, list):
+            raise TypeError("тип входных данных должен быть список")
         if not isinstance(x, dict):
             raise TypeError("тип элементов входных данных должен быть словарь")
         if "currency" not in x["operationAmount"]:
