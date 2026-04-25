@@ -147,6 +147,14 @@ def base_transactions_in_without_currency():
     )
 
 @pytest.fixture
+def base_transactions_in_another_type_of_data_el():
+    return ([
+        [123, " ", "Hello, World"],
+        (1, 2, 3,),
+        {"123": [123]}
+    ])
+
+@pytest.fixture
 def base_transactions_out_1():
     return (
         {
