@@ -5,11 +5,17 @@ import pytest
 from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 
-def test_filter_by_currency(base_transactions_in,base_transactions_out_1, base_transactions_out_2, base_transactions_out_3):
+def test_filter_by_currency_with_usd(base_transactions_in,base_transactions_out_1, base_transactions_out_2, base_transactions_out_3):
     i = filter_by_currency(base_transactions_in, "USD")
     assert next(i) == base_transactions_out_1
     assert next(i) == base_transactions_out_2
     assert next(i) == base_transactions_out_3
+
+
+def test_filter_by_currency_with_rub(base_transactions_in, base_transactions_out_4, base_transactions_out_5):
+    i = filter_by_currency(base_transactions_in, "RUB")
+    assert next(i) == base_transactions_out_4
+    assert next(i) == base_transactions_out_5
 
 
 
