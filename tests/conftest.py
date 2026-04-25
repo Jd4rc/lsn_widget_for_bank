@@ -146,6 +146,47 @@ def base_transactions_out_3():
 
 
 @pytest.fixture
+def base_transactions_out_4():
+    return (
+        {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {
+                "amount": "43318.34",
+                "currency": {
+                    "name": "руб.",
+                    "code": "RUB"
+                }
+            },
+            "description": "Перевод со счета на счет",
+            "from": "Счет 44812258784861134719",
+            "to": "Счет 74489636417521191160"
+        }
+    )
+
+@pytest.fixture
+def base_transactions_out_5():
+    return (
+        {
+            "id": 594226727,
+            "state": "CANCELED",
+            "date": "2018-09-12T21:27:25.241689",
+            "operationAmount": {
+                "amount": "67314.70",
+                "currency": {
+                    "name": "руб.",
+                    "code": "RUB"
+                }
+            },
+            "description": "Перевод организации",
+            "from": "Visa Platinum 1246377376343588",
+            "to": "Счет 14211924144426031657"
+        }
+    )
+
+
+@pytest.fixture
 def base_descriptions_out_1():
     return "Перевод организации"
 
