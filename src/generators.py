@@ -11,3 +11,17 @@ def transaction_descriptions(
         data: list[dict[str, int | str | dict[str, dict[str, str]]]]
 ) -> Iterator[str]:
     return (x["description"] for x in data)
+
+def card_number_generator(
+        range_from: int,
+        range_to: int
+) -> Iterator[str]:
+    if range_from > range_to:
+        raise ValueError('первый аргумент должен быть меньше второго')
+
+    number = range_from
+    while int(number) <= range_to:
+        num_str = f"{number:016d}"
+
+        yield f"{num_str[:4]} {num_str[4:8]} {num_str[8:12]} {num_str[12:]}"
+        number += 1
