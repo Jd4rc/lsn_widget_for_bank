@@ -23,6 +23,11 @@ def test_filter_by_currency_without_currency(base_transactions_in_without_curren
 
         next(i)
 
+def test_filter_by_currency_with_another_type_of_data(base_transactions_in_another_type_of_data):
+    i = filter_by_currency(base_transactions_in_another_type_of_data, "USD")
+
+    with pytest.raises(TypeError):
+        next(i)
 def test_filter_by_currency_with_another_type_of_data_el(base_transactions_in_another_type_of_data_el):
     with pytest.raises(TypeError):
         i = filter_by_currency(base_transactions_in_another_type_of_data_el, "RUB")
