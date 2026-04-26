@@ -19,7 +19,10 @@ def filter_by_currency(
 def transaction_descriptions(
         data: list[dict[str, int | str | dict[str, dict[str, str]]]]
 ) -> Iterator[str]:
-    return (x["description"] for x in data)
+    for x in data:
+        if "description" not in x:
+            raise KeyError("описание операции отсутствует")
+        yield x["description"]
 
 def card_number_generator(
         range_from: int,
