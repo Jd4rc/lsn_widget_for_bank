@@ -84,3 +84,17 @@ def test_transaction_without_descriptions(base_transactions_in_without_descripti
 
 def test_card_number_generator_with_base_values(start, end, expected):
         assert [card_number for card_number in card_number_generator(start, end)] == expected
+
+
+
+@pytest.mark.parametrize("start, end, expected", [
+    (120, 50, ValueError),
+    (10000, 28, ValueError),
+    (1616, 1, ValueError)
+
+])
+
+def test_card_number_generator_with_range_from_more_range_to(start, end, expected):
+    with pytest.raises(expected):
+        i = card_number_generator(start, end)
+        next(i)
