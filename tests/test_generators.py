@@ -53,14 +53,14 @@ def test_transaction_without_descriptions(base_transactions_in_without_descripti
         next(i)
 
 
-@pytest.mark.parametrize("start, end, expected, error", [ # смешал чистый с ловлей ошибки, чтобы попробовать
+@pytest.mark.parametrize("start, end, expected", [
     (1, 5,
      ["0000 0000 0000 0001",
      "0000 0000 0000 0002",
      "0000 0000 0000 0003",
      "0000 0000 0000 0004",
      "0000 0000 0000 0005",],
-     None),
+     ),
     (2, 10,
      ["0000 0000 0000 0002",
       "0000 0000 0000 0003",
@@ -71,7 +71,7 @@ def test_transaction_without_descriptions(base_transactions_in_without_descripti
       "0000 0000 0000 0008",
       "0000 0000 0000 0009",
       "0000 0000 0000 0010"],
-     None),
+    ),
     (10000, 10005,
      ["0000 0000 0001 0000",
       "0000 0000 0001 0001",
@@ -79,13 +79,8 @@ def test_transaction_without_descriptions(base_transactions_in_without_descripti
       "0000 0000 0001 0003",
       "0000 0000 0001 0004",
       "0000 0000 0001 0005",],
-     None),
-    (10, 0, None, ValueError)
+     )
 ])
 
-def test_card_number_generator(start, end, expected, error):
-    if error:
-        with pytest.raises(ValueError):
-            [card_number for card_number in card_number_generator(start, end)]
-    else:
+def test_card_number_generator_with_base_values(start, end, expected):
         assert [card_number for card_number in card_number_generator(start, end)] == expected
