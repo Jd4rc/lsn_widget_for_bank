@@ -4,6 +4,11 @@ def filter_by_currency(
         data: list[dict[str, int | str | dict[str, dict[str, str]]]],
         currency: str
 ) -> Iterator[dict[str, int | str | dict[str, str]]]:
+    """
+    фильтрует список операций по коду валюты (operationAmount.currency.code)
+
+    возвращает генератор словарей операций с совпадающим значением currency
+"""
 
     for x in data:
         if not isinstance(data, list):
@@ -19,6 +24,13 @@ def filter_by_currency(
 def transaction_descriptions(
         data: list[dict[str, int | str | dict[str, dict[str, str]]]]
 ) -> Iterator[str]:
+    """
+принимает список словарей с операциями
+
+возвращает итератор строк с описанием операций
+
+выбрасывает исключение KeyError, если в операции нет ключа "description"
+    """
     for x in data:
         if "description" not in x:
             raise KeyError("описание операции отсутствует")
@@ -28,6 +40,14 @@ def card_number_generator(
         range_from: int,
         range_to: int
 ) -> Iterator[str]:
+    """
+    генерирует номера банковских карт в заданном числовом диапазоне
+
+    возвращает итератор строк в формате "XXXX XXXX XXXX XXXX",
+    где номер формируется из числа с ведущими нулями до 16 цифр
+
+    выбрасывает исключение ValueError если range_from > range_to
+    """
     if range_from > range_to:
         raise ValueError('первый аргумент должен быть меньше второго')
 
