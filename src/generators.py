@@ -1,14 +1,14 @@
 from collections.abc import Iterator
 
+
 def filter_by_currency(
-        data: list[dict[str, int | str | dict[str, dict[str, str]]]],
-        currency: str
+    data: list[dict[str, int | str | dict[str, dict[str, str]]]], currency: str
 ) -> Iterator[dict[str, int | str | dict[str, str]]]:
     """
     фильтрует список операций по коду валюты (operationAmount.currency.code)
 
     возвращает генератор словарей операций с совпадающим значением currency
-"""
+    """
 
     for x in data:
         if not isinstance(data, list):
@@ -16,30 +16,26 @@ def filter_by_currency(
         if not isinstance(x, dict):
             raise TypeError("тип элементов входных данных должен быть словарь")
         if "currency" not in x["operationAmount"]:
-            raise KeyError('для фильтрации необходимо наличие ключа \"currency\"')
+            raise KeyError('для фильтрации необходимо наличие ключа "currency"')
         if x["operationAmount"]["currency"]["code"] == currency:
             yield x
 
 
-def transaction_descriptions(
-        data: list[dict[str, int | str | dict[str, dict[str, str]]]]
-) -> Iterator[str]:
+def transaction_descriptions(data: list[dict[str, int | str | dict[str, dict[str, str]]]]) -> Iterator[str]:
     """
-принимает список словарей с операциями
+    принимает список словарей с операциями
 
-возвращает итератор строк с описанием операций
+    возвращает итератор строк с описанием операций
 
-выбрасывает исключение KeyError, если в операции нет ключа "description"
+    выбрасывает исключение KeyError, если в операции нет ключа "description"
     """
     for x in data:
         if "description" not in x:
             raise KeyError("описание операции отсутствует")
         yield x["description"]
 
-def card_number_generator(
-        range_from: int,
-        range_to: int
-) -> Iterator[str]:
+
+def card_number_generator(range_from: int, range_to: int) -> Iterator[str]:
     """
     генерирует номера банковских карт в заданном числовом диапазоне
 
@@ -49,7 +45,7 @@ def card_number_generator(
     выбрасывает исключение ValueError если range_from > range_to
     """
     if range_from > range_to:
-        raise ValueError('первый аргумент должен быть меньше второго')
+        raise ValueError("первый аргумент должен быть меньше второго")
 
     number = range_from
     while int(number) <= range_to:
