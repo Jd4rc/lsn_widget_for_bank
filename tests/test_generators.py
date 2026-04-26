@@ -46,6 +46,12 @@ def test_transaction_descriptions(base_transactions_in, base_descriptions_out_1,
     assert next(i) == base_descriptions_out_2
     assert next(i) == base_descriptions_out_3
 
+def test_transaction_without_descriptions(base_transactions_in_without_descriptions):
+    with pytest.raises(KeyError):
+        i = transaction_descriptions(base_transactions_in_without_descriptions)
+
+        next(i)
+
 
 @pytest.mark.parametrize("start, end, expected, error", [ # смешал чистый с ловлей ошибки, чтобы попробовать
     (1, 5,
