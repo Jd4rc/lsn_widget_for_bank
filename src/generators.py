@@ -9,12 +9,14 @@ def filter_by_currency(
 
     возвращает генератор словарей операций с совпадающим значением currency
     """
+    if not isinstance(data, list):
+        raise TypeError("тип входных данных должен быть список")
 
     for x in data:
-        if not isinstance(data, list):
-            raise TypeError("тип входных данных должен быть список")
         if not isinstance(x, dict):
             raise TypeError("тип элементов входных данных должен быть словарь")
+        if not isinstance(x.get("operationAmount"), dict):
+            raise TypeError("тип \"operationAmount\" данных должен быть словарь")
         if "currency" not in x["operationAmount"]:
             raise KeyError('для фильтрации необходимо наличие ключа "currency"')
         if x["operationAmount"]["currency"]["code"] == currency:
