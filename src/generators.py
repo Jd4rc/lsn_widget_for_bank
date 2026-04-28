@@ -3,7 +3,7 @@ from collections.abc import Iterator
 
 def filter_by_currency(
     data: list[dict[str, int | str | dict[str, dict[str, str]]]], currency: str
-) -> Iterator[dict[str, int | str | dict[str, str]]]:
+) -> Iterator[dict[str, int | str | dict[str, dict[str, str]]]]:
     """
     фильтрует список операций по коду валюты (operationAmount.currency.code)
 
