@@ -15,7 +15,7 @@ def filter_by_state(
     return result
 
 
-def sort_by_date(unsorted_data: list[dict[str, str | int]], reverse: bool = True) -> list[dict[str, str | int]]:
+def sort_by_date(unsorted_data: list[dict[str, str | int]], reverse: bool = True) -> list[dict[str, str | int]] | None:
     """ "
     Принимает список словарей и параметр
     направления сортировки. Возвращает новый список, отсортированный
