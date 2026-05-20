@@ -46,7 +46,7 @@ def log(filename=''):
             except Exception as e:
                 write_log(
                     f"[ERROR][{time}] "
-                    f"В функции {func_name} возникла ошибка: {e}."
+                    f"В функции {func_name} возникла ошибка: {e}. "
                     f"Входные параметры: {args}, {kwargs}"
                 )
 
