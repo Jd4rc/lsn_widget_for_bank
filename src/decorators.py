@@ -1,45 +1,37 @@
-from functools import wraps
 from datetime import datetime
+from functools import wraps
 from pathlib import Path
 
 
-def log(filename=''):
+def log(filename=""):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
 
             func_name = func.__name__
-            time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
-            
-            def write_log(message:str):
+            time = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
+
+            def write_log(message: str):
 
                 if filename:
                     BASE_DIR = Path(__file__).resolve().parent.parent
-                    data_dir = BASE_DIR / 'data'
+                    data_dir = BASE_DIR / "data"
                     data_dir.mkdir(exist_ok=True)
                     log_file = data_dir / filename
 
-                    with open(log_file, 'a', encoding="UTF-8") as f:
-                        f.write(message + '\n')
+                    with open(log_file, "a", encoding="UTF-8") as f:
+                        f.write(message + "\n")
 
                 else:
                     print(message)
 
-
-            write_log(
-                f"[LOG][{time}] "
-                f"Начало выполнения функции: {func_name}"
-            )
-
+            write_log(f"[LOG][{time}] " f"Начало выполнения функции: {func_name}")
 
             try:
 
                 result = func(*args, **kwargs)
 
-                write_log(
-                    f"[LOG][{time}] "
-                    f"Результат функции: {result}"
-                )
+                write_log(f"[LOG][{time}] " f"Результат функции: {result}")
 
                 return result
 
@@ -53,10 +45,7 @@ def log(filename=''):
                 raise
 
             finally:
-                write_log(
-                    f"[LOG][{time}] "
-                    f"Конец выполнения функции: {func_name}"
-                )
+                write_log(f"[LOG][{time}] " f"Конец выполнения функции: {func_name}")
 
         return wrapper
 

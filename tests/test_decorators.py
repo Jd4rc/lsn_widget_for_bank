@@ -3,7 +3,6 @@ import pytest
 from src.decorators import log
 
 
-
 def test_log_returns_function_result(capsys):
     @log()
     def add(a, b):
