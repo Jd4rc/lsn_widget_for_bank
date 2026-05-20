@@ -1,30 +1,61 @@
 from functools import wraps
 from datetime import datetime
+from pathlib import Path
 
 
 def log(filename=''):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
+
             func_name = func.__name__
             time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
+            
+            def write_log(message:str):
 
-            print(f"[LOG][{time}] Начало выполнения функции: {func_name}")
+                if filename:
+                    data_dir = Path('data')
+                    data_dir.mkdir(exist_ok=True, parents=True)
+                    log_file = data_dir / filename
+
+                    with open(log_file, 'a') as f:
+                        f.write(message + '\n')
+
+                else:
+                    print(message)
+
+
+            write_log(
+                f"[LOG][{time}] "
+                f"Начало выполнения функции: {func_name}"
+            )
+
+
             try:
 
                 result = func(*args, **kwargs)
 
-                print(f"[LOG][{time}] Результат функции: {result}")
+                write_log(
+                    f"[LOG][{time}]"
+                    f"Результат функции: {result}"
+                )
 
                 return result
 
             except Exception as e:
-                print(f"[ERROR][{time}] В функции {func_name} возникла ошибка: {e}. Входные параметры: {args}, {kwargs}")
+                write_log(
+                    f"[ERROR][{time}]"
+                    f"В функции {func_name} возникла ошибка: {e}."
+                    f"Входные параметры: {args}, {kwargs}"
+                )
 
                 raise
 
             finally:
-                print(f"[LOG][{time}] Конец выполнения функции: {func_name}")
+                write_log(
+                    f"[LOG][{time}]"
+                    f"Конец выполнения функции: {func_name}"
+                )
 
         return wrapper
 
