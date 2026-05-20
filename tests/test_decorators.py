@@ -34,3 +34,11 @@ def test_log_raises_exception_and_logs_it(capsys):
     assert "division by zero" in captured.out
     assert "Входные параметры: (10, 0), {}" in captured.out
     assert "Конец выполнения функции: divide" in captured.out
+#
+#
+#
+# def test_log_creates_data_directory_and_writes_file(
+#     tmp_path,
+#     monkeypatch,
+# ):
+#     pass
