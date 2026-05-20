@@ -14,11 +14,12 @@ def log(filename=''):
             def write_log(message:str):
 
                 if filename:
-                    data_dir = Path('data')
-                    data_dir.mkdir(exist_ok=True, parents=True)
+                    BASE_DIR = Path(__file__).resolve().parent.parent
+                    data_dir = BASE_DIR / 'data'
+                    data_dir.mkdir(exist_ok=True)
                     log_file = data_dir / filename
 
-                    with open(log_file, 'a') as f:
+                    with open(log_file, 'a', encoding="UTF-8") as f:
                         f.write(message + '\n')
 
                 else:
@@ -36,7 +37,7 @@ def log(filename=''):
                 result = func(*args, **kwargs)
 
                 write_log(
-                    f"[LOG][{time}]"
+                    f"[LOG][{time}] "
                     f"Результат функции: {result}"
                 )
 
@@ -44,7 +45,7 @@ def log(filename=''):
 
             except Exception as e:
                 write_log(
-                    f"[ERROR][{time}]"
+                    f"[ERROR][{time}] "
                     f"В функции {func_name} возникла ошибка: {e}."
                     f"Входные параметры: {args}, {kwargs}"
                 )
@@ -53,7 +54,7 @@ def log(filename=''):
 
             finally:
                 write_log(
-                    f"[LOG][{time}]"
+                    f"[LOG][{time}] "
                     f"Конец выполнения функции: {func_name}"
                 )
 
@@ -62,7 +63,7 @@ def log(filename=''):
     return decorator
 
 
-# @log()
+# @log(filename='test.txt')
 # def divide(a, b):
 #     return a / b
 #
