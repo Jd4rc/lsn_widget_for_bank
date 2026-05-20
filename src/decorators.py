@@ -11,16 +11,26 @@ def log(filename=''):
 
                 result = func(*args, **kwargs)
 
-                print(f"[LOG]Результат функции: {result}")
+                print(f"[LOG] Результат функции: {result}")
 
                 return result
 
             except Exception as e:
                 print(f"[ERROR] В функции {func_name} возникла ошибка: {e}")
 
+                raise
 
-            print(f"[LOG] Конец выполнения функции: {func_name}")
+            finally:
+                print(f"[LOG] Конец выполнения функции: {func_name}")
 
         return wrapper
 
     return decorator
+
+
+# @log()
+# def divide(a, b):
+#     return a / b
+#
+#
+# divide(10, 0)
