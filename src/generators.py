@@ -16,13 +16,13 @@ def filter_by_currency(
         if not isinstance(x, dict):
             raise TypeError("тип элементов входных данных должен быть словарь")
         if not isinstance(x.get("operationAmount"), dict):
-            raise TypeError("тип \"operationAmount\" данных должен быть словарь")
+            raise TypeError('тип "operationAmount" данных должен быть словарь')
         if not x["operationAmount"].get("currency"):
-            raise KeyError("для фильтрации необходимо наличие ключа \"currency\"")
+            raise KeyError('для фильтрации необходимо наличие ключа "currency"')
         if not isinstance((x["operationAmount"]).get("currency"), dict):
-            raise TypeError("тип ключа \"currency\" должен быть словарем")
+            raise TypeError('тип ключа "currency" должен быть словарем')
         if not x["operationAmount"]["currency"].get("code"):
-            raise KeyError("для фильтрации необходимо наличие ключа \"code\"")
+            raise KeyError('для фильтрации необходимо наличие ключа "code"')
         if x["operationAmount"]["currency"]["code"] == currency:
             yield x
 
