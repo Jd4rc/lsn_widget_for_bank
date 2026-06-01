@@ -36,6 +36,9 @@ def get_transaction_amount(
 
     url = "https://api.apilayer.com/exchangerates_data/convert"
 
+    if EXCHANGE_RATES_API_KEY is None:
+        raise ValueError("EXCHANGE_RATES_API_KEY not set")
+
     headers = {"apikey": EXCHANGE_RATES_API_KEY}
 
     params = {
@@ -50,4 +53,4 @@ def get_transaction_amount(
 
     data = response.json()
 
-    return data["result"]
+    return float(data["result"])

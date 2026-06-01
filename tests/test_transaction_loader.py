@@ -24,7 +24,7 @@ def test_load_transactions_with_happy_path(mock_read_text):
 
 @patch("src.utils.transaction_loader.Path.read_text")
 def test_load_transactions_with_empty_data(mock_read_text):
-    data = []
+    data: list[dict[str, str | int]] = []
 
     mock_read_text.return_value = json.dumps(data)
 

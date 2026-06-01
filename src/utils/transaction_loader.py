@@ -1,10 +1,11 @@
+from typing import Any
 import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
-def load_transactions(filepath: str) -> list[dict]:
+def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     Читает JSON-файл и преобразует его содержимое
     в список словарей с данными транзакций.
