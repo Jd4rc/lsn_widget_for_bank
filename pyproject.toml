@@ -53,3 +53,6 @@ dev = [
     "python-dotenv (>=1.2.2,<2.0.0)",
     "requests (>=2.34.2,<3.0.0)"
 ]
+
+[tool.poetry]
+package-mode = false
