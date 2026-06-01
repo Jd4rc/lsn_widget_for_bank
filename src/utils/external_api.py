@@ -1,16 +1,17 @@
-from dotenv import load_dotenv
-from pathlib import Path
 import os
+from pathlib import Path
+
 import requests
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-load_dotenv(BASE_DIR / '.env')
-EXCHANGE_RATES_API_KEY = os.getenv('EXCHANGE_RATES_API_KEY')
+load_dotenv(BASE_DIR / ".env")
+EXCHANGE_RATES_API_KEY = os.getenv("EXCHANGE_RATES_API_KEY")
 
 
 def get_transaction_amount(
-        transaction: dict,
+    transaction: dict,
 ) -> float:
     """
     Извлекает сумму и валюту из транзакции и возвращает сумму в рублях.
@@ -24,39 +25,29 @@ def get_transaction_amount(
     :raises ValueError: Если валюта не является RUB, USD или EUR.
     :raises requests.RequestException: При ошибке HTTP-запроса.
     """
-    amount = float(transaction['operationAmount']['amount'])
-    currency = transaction['operationAmount']['currency']['code']
+    amount = float(transaction["operationAmount"]["amount"])
+    currency = transaction["operationAmount"]["currency"]["code"]
 
-    if currency == 'RUB':
+    if currency == "RUB":
         return amount
 
-    if currency not in ('EUR', 'USD'):
-        raise ValueError(
-            'Currency must be RUB or EUR or USD'
-        )
-
+    if currency not in ("EUR", "USD"):
+        raise ValueError("Currency must be RUB or EUR or USD")
 
     url = "https://api.apilayer.com/exchangerates_data/convert"
 
-    headers = {
-        "apikey": EXCHANGE_RATES_API_KEY
-    }
+    headers = {"apikey": EXCHANGE_RATES_API_KEY}
 
     params = {
-        "to": 'RUB',
+        "to": "RUB",
         "from": currency,
         "amount": amount,
     }
 
-    response = requests.get(
-        url,
-        headers=headers,
-        params=params
-    )
+    response = requests.get(url, headers=headers, params=params)
 
     response.raise_for_status()
 
     data = response.json()
 
-
-    return data['result']
+    return data["result"]

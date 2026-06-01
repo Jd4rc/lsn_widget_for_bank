@@ -34,6 +34,8 @@ def test_log_raises_exception_and_logs_it(capsys):
     assert "division by zero" in captured.out
     assert "Входные параметры: (10, 0), {}" in captured.out
     assert "Конец выполнения функции: divide" in captured.out
+
+
 #
 #
 #
