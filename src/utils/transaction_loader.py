@@ -7,6 +7,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 def load_transactions(
         filepath: str
 ) -> list[dict]:
+    """
+       Читает JSON-файл и преобразует его содержимое
+       в список словарей с данными транзакций.
+
+       :param filepath: Относительный путь к файлу с транзакциями.
+       :return: Список транзакций.
+       :raises FileNotFoundError: Если указанный файл не найден.
+       :raises json.JSONDecodeError: Если файл содержит некорректный JSON.
+    """
     file_path = Path(BASE_DIR / filepath)
 
     transactions = json.loads(
