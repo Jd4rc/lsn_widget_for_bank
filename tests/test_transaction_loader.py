@@ -34,3 +34,12 @@ def test_load_transactions_with_empty_data(mock_read_text):
     mock_read_text.assert_called_with(
         encoding="utf-8"
     )
+
+
+@patch('src.utils.transaction_loader.Path.read_text')
+def test_load_transactions_with_custom_path(mock_read_text):
+    mock_read_text.return_value = ('[{"id": 1},{"id": 2}]')
+
+    result = load_transactions('data/test.json')
+
+    assert result == [{"id": 1}, {"id": 2}]
