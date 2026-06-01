@@ -12,11 +12,23 @@ EXCHANGE_RATES_API_KEY = os.getenv('EXCHANGE_RATES_API_KEY')
 def get_transaction_amount(
         transaction: dict,
 ) -> float:
+    """
+    Извлекает сумму и валюту из транзакции и возвращает сумму в рублях.
+
+    Поддерживаются валюты RUB, USD и EUR. Для USD и EUR выполняется
+    конвертация через внешний сервис обменных курсов.
+
+    :param transaction: Словарь транзакции, содержащий ключи
+        operationAmount.amount и operationAmount.currency.code.
+    :return: Сумма транзакции в RUB.
+    :raises ValueError: Если валюта не является RUB, USD или EUR.
+    :raises requests.RequestException: При ошибке HTTP-запроса.
+    """
     amount = float(transaction['operationAmount']['amount'])
     currency = transaction['operationAmount']['currency']['code']
 
     if currency == 'RUB':
-        return float(amount)
+        return amount
 
     if currency not in ('EUR', 'USD'):
         raise ValueError(
