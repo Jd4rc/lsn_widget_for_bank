@@ -52,3 +52,10 @@ def test_load_transactions_with_invalid_json(mock_read_text):
 
     with pytest.raises(json.JSONDecodeError):
         load_transactions('data/operations.json')
+
+@patch('src.utils.transaction_loader.Path.read_text')
+def test_load_transactions_with_file_not_found(mock_read_text):
+    mock_read_text.side_effect = FileNotFoundError
+
+    with pytest.raises(FileNotFoundError):
+        load_transactions('data/operations.json')
