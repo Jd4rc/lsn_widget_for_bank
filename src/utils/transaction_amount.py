@@ -19,14 +19,27 @@ def get_transaction_amount(
         return amount
 
 
-    url = "https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from}&amount={amount}"
+    url = "https://api.apilayer.com/exchangerates_data/convert"
 
-    payload = {}
     headers = {
         "apikey": EXCHANGE_RATES_API_KEY
     }
 
-    response = requests.request("GET", url, headers=headers, data=payload)
+    if currency == 'USD':
+        params = {
+            "to": 'RUB',
+            "from": 'USD',
+            "amount": amount,
+        }
 
-    status_code = response.status_code
-    result = response.text
+    if currency == 'EUR':
+        params = {
+            "to": 'RUB',
+            "from": 'EUR',
+            "amount": amount,
+        }
+
+
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    response = response.json()
