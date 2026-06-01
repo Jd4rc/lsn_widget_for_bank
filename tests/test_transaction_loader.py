@@ -1,6 +1,8 @@
 import json
 from unittest.mock import patch
 
+import pytest
+
 from src.utils.transaction_loader import load_transactions
 
 @patch('src.utils.transaction_loader.Path.read_text')
@@ -43,3 +45,10 @@ def test_load_transactions_with_custom_path(mock_read_text):
     result = load_transactions('data/test.json')
 
     assert result == [{"id": 1}, {"id": 2}]
+
+@patch('src.utils.transaction_loader.Path.read_text')
+def test_load_transactions_with_invalid_json(mock_read_text):
+    mock_read_text.return_value = 'invalid json'
+
+    with pytest.raises(json.JSONDecodeError):
+        load_transactions('data/operations.json')
