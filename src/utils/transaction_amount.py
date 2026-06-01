@@ -6,17 +6,22 @@ import requests
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 load_dotenv(BASE_DIR / '.env')
-EXCHANGE_RATES_API_KEY = os.getenv('Exchange_Rates_Data_API')
+EXCHANGE_RATES_API_KEY = os.getenv('EXCHANGE_RATES_API_KEY')
 
 
 def get_transaction_amount(
         transaction: dict,
 ) -> float:
-    amount = transaction['operationAmount']['amount']
+    amount = float(transaction['operationAmount']['amount'])
     currency = transaction['operationAmount']['currency']['code']
 
     if currency == 'RUB':
-        return amount
+        return float(amount)
+
+    if currency not in ('EUR', 'USD'):
+        raise ValueError(
+            'Currency must be RUB or EUR or USD'
+        )
 
 
     url = "https://api.apilayer.com/exchangerates_data/convert"
@@ -25,21 +30,21 @@ def get_transaction_amount(
         "apikey": EXCHANGE_RATES_API_KEY
     }
 
-    if currency == 'USD':
-        params = {
-            "to": 'RUB',
-            "from": 'USD',
-            "amount": amount,
-        }
+    params = {
+        "to": 'RUB',
+        "from": currency,
+        "amount": amount,
+    }
 
-    if currency == 'EUR':
-        params = {
-            "to": 'RUB',
-            "from": 'EUR',
-            "amount": amount,
-        }
+    response = requests.get(
+        url,
+        headers=headers,
+        params=params
+    )
 
-
-    response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
-    response = response.json()
+
+    data = response.json()
+
+
+    return data['result']
