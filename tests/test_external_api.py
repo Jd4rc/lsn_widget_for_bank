@@ -49,4 +49,28 @@ def test_get_transaction_amount_with_no_rub(mock_get):
     assert result == 12300.1411
     mock_response.raise_for_status.assert_called_once()
 
+@patch('src.utils.external_api.requests.get')
+def test_get_transaction_amount_with_unsupported_currency(mock_get):
+    transaction = {
+        "id": 939719570,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572",
+        "operationAmount": {
+            "amount": "9824.07",
+            "currency": {
+                "name": "Afghani",
+                "code": "AFN"
+            }
+        },
+        "description": "Перевод организации",
+        "from": "Счет 75106830613657916952",
+        "to": "Счет 11776614605963066702"
+    }
+
+    with pytest.raises(ValueError):
+        get_transaction_amount(transaction)
+
+
+    mock_get.assert_not_called()
+
 
