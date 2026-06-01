@@ -1,5 +1,12 @@
+from dotenv import load_dotenv
+from pathlib import Path
+import os
 import requests
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+load_dotenv(BASE_DIR / '.env')
+EXCHANGE_RATES_API_KEY = os.getenv('Exchange_Rates_Data_API')
 
 
 def get_transaction_amount(
@@ -16,7 +23,7 @@ def get_transaction_amount(
 
     payload = {}
     headers = {
-        "apikey": API_KEY
+        "apikey": EXCHANGE_RATES_API_KEY
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
