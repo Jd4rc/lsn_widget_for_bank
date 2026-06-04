@@ -69,5 +69,16 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     file_path = Path(BASE_DIR / filepath)
 
-    transactions = json.loads(file_path.read_text(encoding="utf-8"))
-    return transactions
+    try:
+        transactions = json.loads(file_path.read_text(encoding="utf-8"))
+
+        if not isinstance(transactions, list):
+            return []
+
+        return transactions
+    except json.decoder.JSONDecodeError:
+        return []
+
+
+y = load_transactions('data/operations.json')
+print(y)
