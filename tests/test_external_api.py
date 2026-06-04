@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.utils.external_api import get_transaction_amount
+from src.utils import get_transaction_amount
 
 
 def test_get_transaction_amount_with_rub():
@@ -21,7 +21,7 @@ def test_get_transaction_amount_with_rub():
     assert result == 31957.58
 
 
-@patch("src.utils.external_api.requests.get")
+@patch("src.utils.requests.get")
 def test_get_transaction_amount_with_no_rub(mock_get):
     transaction = {
         "id": 939719570,
@@ -42,7 +42,7 @@ def test_get_transaction_amount_with_no_rub(mock_get):
     mock_response.raise_for_status.assert_called_once()
 
 
-@patch("src.utils.external_api.requests.get")
+@patch("src.utils.requests.get")
 def test_get_transaction_amount_with_unsupported_currency(mock_get):
     transaction = {
         "id": 939719570,
@@ -60,8 +60,8 @@ def test_get_transaction_amount_with_unsupported_currency(mock_get):
     mock_get.assert_not_called()
 
 
-@patch("src.utils.external_api.EXCHANGE_RATES_API_KEY", "test_api_key")
-@patch("src.utils.external_api.requests.get")
+@patch("src.utils.EXCHANGE_RATES_API_KEY", "test_api_key")
+@patch("src.utils.requests.get")
 def test_get_transaction_amount_with_api_call(mock_get):
     transaction = {
         "id": 142264268,
