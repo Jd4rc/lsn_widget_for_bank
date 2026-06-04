@@ -78,7 +78,3 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
         return transactions
     except json.decoder.JSONDecodeError:
         return []
-
-
-y = load_transactions('data/operations.json')
-print(y)
