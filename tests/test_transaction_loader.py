@@ -3,10 +3,10 @@ from unittest.mock import patch
 
 import pytest
 
-from src.utils.transaction_loader import load_transactions
+from src.utils import load_transactions
 
 
-@patch("src.utils.transaction_loader.Path.read_text")
+@patch("src.utils.Path.read_text")
 def test_load_transactions_with_happy_path(mock_read_text):
     data = [
         {"id": 1},
@@ -22,7 +22,7 @@ def test_load_transactions_with_happy_path(mock_read_text):
     mock_read_text.assert_called_with(encoding="utf-8")
 
 
-@patch("src.utils.transaction_loader.Path.read_text")
+@patch("src.utils.Path.read_text")
 def test_load_transactions_with_empty_data(mock_read_text):
     data: list[dict[str, str | int]] = []
 
@@ -35,7 +35,7 @@ def test_load_transactions_with_empty_data(mock_read_text):
     mock_read_text.assert_called_with(encoding="utf-8")
 
 
-@patch("src.utils.transaction_loader.Path.read_text")
+@patch("src.utils.Path.read_text")
 def test_load_transactions_with_custom_path(mock_read_text):
     mock_read_text.return_value = '[{"id": 1},{"id": 2}]'
 
@@ -44,7 +44,7 @@ def test_load_transactions_with_custom_path(mock_read_text):
     assert result == [{"id": 1}, {"id": 2}]
 
 
-@patch("src.utils.transaction_loader.Path.read_text")
+@patch("src.utils.Path.read_text")
 def test_load_transactions_with_invalid_json(mock_read_text):
     mock_read_text.return_value = "invalid json"
 
@@ -52,7 +52,7 @@ def test_load_transactions_with_invalid_json(mock_read_text):
         load_transactions("data/operations.json")
 
 
-@patch("src.utils.transaction_loader.Path.read_text")
+@patch("src.utils.Path.read_text")
 def test_load_transactions_with_file_not_found(mock_read_text):
     mock_read_text.side_effect = FileNotFoundError
 
