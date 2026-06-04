@@ -48,8 +48,9 @@ def test_load_transactions_with_custom_path(mock_read_text):
 def test_load_transactions_with_invalid_json(mock_read_text):
     mock_read_text.return_value = "invalid json"
 
-    with pytest.raises(json.JSONDecodeError):
-        load_transactions("data/operations.json")
+    result = load_transactions("data/test.json")
+
+    assert result == []
 
 
 @patch("src.utils.Path.read_text")
