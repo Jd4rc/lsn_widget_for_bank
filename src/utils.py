@@ -36,14 +36,16 @@ def get_transaction_amount(
     amount = float(transaction["operationAmount"]["amount"])
     currency = transaction["operationAmount"]["currency"]["code"]
 
-    logger.debug(
+    logger.info(
         "Transaction amount=%s currency=%s",
         amount,
         currency,
     )
 
     if currency == "RUB":
-        logger.info("Currency is RUB, conversion not required")
+        logger.info("Currency is RUB, conversion not required Amount=%s RUB",
+        amount,
+        )
         return amount
 
     if currency not in ("EUR", "USD"):
