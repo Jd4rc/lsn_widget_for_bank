@@ -15,6 +15,16 @@ git clone https://github.com/Jd4rc/lsn_widget_for_bank.git
 git clone git@github.com:Jd4rc/lsn_widget_for_bank.git
 ```
 
+## Возможности проекта
+
+- Маскирование карт и счетов
+- Фильтрация операций
+- Сортировка по дате
+- Генераторы транзакций
+- Работа с JSON
+- Конвертация валют через API
+- Логирование
+
 ## Использование
 
 ### Создание маски для твоего карточки
@@ -615,6 +625,15 @@ pytest
 - Дата в функции `get_date` на входе должна быть в формате `YYYY-MM-DDTHH:MM:SS` 
 - Проект использует Poetry для работы с зависимостями
 
-### Требования 
+### Используемые технологии
+
 - Python 3.14+
 - Poetry
+- requests
+- python-dotenv
+- pytest
+- pytest-cov
+- black
+- flake8
+- mypy
+- isort
