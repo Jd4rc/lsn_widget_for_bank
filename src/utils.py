@@ -1,10 +1,11 @@
-from typing import Any
 import json
-from pathlib import Path
+import logging
 import os
+from pathlib import Path
+from typing import Any
+
 import requests
 from dotenv import load_dotenv
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,6 @@ def get_transaction_amount(
     """
 
     logger.info("Processing transaction amount")
-
 
     amount = float(transaction["operationAmount"]["amount"])
     currency = transaction["operationAmount"]["currency"]["code"]
@@ -100,31 +100,17 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     logger.info("Loading transactions from %s", filepath)
 
     try:
-        transactions = json.loads(
-            file_path.read_text(
-                encoding="utf-8"
-            )
-        )
+        transactions = json.loads(file_path.read_text(encoding="utf-8"))
 
-        logger.info(
-            "Successfully loaded transactions file"
-        )
+        logger.info("Successfully loaded transactions file")
 
         if not isinstance(transactions, list):
-            logger.warning(
-                "Transactions data is not a list"
-            )
+            logger.warning("Transactions data is not a list")
             return []
 
-        logger.info(
-            "Loaded %s transactions",
-            len(transactions)
-        )
+        logger.info("Loaded %s transactions", len(transactions))
         return transactions
 
     except json.decoder.JSONDecodeError:
-        logger.error(
-            "Invalid JSON in file %s",
-            filepath
-        )
+        logger.error("Invalid JSON in file %s", filepath)
         return []

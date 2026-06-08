@@ -1,5 +1,5 @@
-from pathlib import Path
 import logging
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,12 +10,7 @@ LOG_FILE = LOG_DIR / "app.log"
 
 logging.basicConfig(
     level=logging.INFO,
-    format=(
-        "%(asctime)s - "
-        "%(name)s - "
-        "%(levelname)s - "
-        "%(message)s"
-    ),
+    format=("%(asctime)s - " "%(name)s - " "%(levelname)s - " "%(message)s"),
     filename=LOG_FILE,
     filemode="w",
     encoding="utf-8",
