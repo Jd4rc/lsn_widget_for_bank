@@ -97,12 +97,34 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     file_path = Path(BASE_DIR / filepath)
 
+    logger.info("Loading transactions from %s", filepath)
+
     try:
-        transactions = json.loads(file_path.read_text(encoding="utf-8"))
+        transactions = json.loads(
+            file_path.read_text(
+                encoding="utf-8"
+            )
+        )
+
+        logger.info(
+            "Successfully loaded transactions file"
+        )
 
         if not isinstance(transactions, list):
+            logger.warning(
+                "Transactions data is not a list"
+            )
             return []
 
+        logger.info(
+            "Loaded %s transactions",
+            len(transactions)
+        )
         return transactions
+
     except json.decoder.JSONDecodeError:
+        logger.error(
+            "Invalid JSON in file %s",
+            filepath
+        )
         return []
