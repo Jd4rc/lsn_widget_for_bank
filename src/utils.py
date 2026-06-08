@@ -4,6 +4,9 @@ from pathlib import Path
 import os
 import requests
 from dotenv import load_dotenv
+import logging
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

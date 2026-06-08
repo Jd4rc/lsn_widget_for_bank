@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 def get_mask_card_number(card_number: int | str) -> str:
     """ " Returns the mask card number"""
     str_card_number = str(card_number)
