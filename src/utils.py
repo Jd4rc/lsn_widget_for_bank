@@ -29,13 +29,25 @@ def get_transaction_amount(
     :raises ValueError: Если валюта не является RUB, USD или EUR.
     :raises requests.RequestException: При ошибке HTTP-запроса.
     """
+
+    logger.info("Processing transaction amount")
+
+
     amount = float(transaction["operationAmount"]["amount"])
     currency = transaction["operationAmount"]["currency"]["code"]
 
+    logger.debug(
+        "Transaction amount=%s currency=%s",
+        amount,
+        currency,
+    )
+
     if currency == "RUB":
+        logger.info("Currency is RUB, conversion not required")
         return amount
 
     if currency not in ("EUR", "USD"):
+        logger.error("Unsupported currency: %s", currency)
         raise ValueError("Currency must be RUB or EUR or USD")
 
     url = "https://api.apilayer.com/exchangerates_data/convert"
@@ -51,13 +63,26 @@ def get_transaction_amount(
         "amount": amount,
     }
 
+    logger.info("Sending request to exchange rates API")
+
     response = requests.get(url, headers=headers, params=params)
 
     response.raise_for_status()
 
+    logger.info("Exchange rates API request successful")
+
     data = response.json()
 
-    return float(data["result"])
+    result = float(data["result"])
+
+    logger.info(
+        "Converted %.2f %s to %.2f RUB",
+        amount,
+        currency,
+        result,
+    )
+
+    return result
 
 
 def load_transactions(filepath: str) -> list[dict[str, Any]]:
