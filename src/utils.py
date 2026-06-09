@@ -1,9 +1,13 @@
-from typing import Any
 import json
-from pathlib import Path
+import logging
 import os
+from pathlib import Path
+from typing import Any
+
 import requests
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,13 +30,26 @@ def get_transaction_amount(
     :raises ValueError: Если валюта не является RUB, USD или EUR.
     :raises requests.RequestException: При ошибке HTTP-запроса.
     """
+
+    logger.info("Processing transaction amount")
+
     amount = float(transaction["operationAmount"]["amount"])
     currency = transaction["operationAmount"]["currency"]["code"]
 
+    logger.info(
+        "Transaction amount=%s currency=%s",
+        amount,
+        currency,
+    )
+
     if currency == "RUB":
+        logger.info("Currency is RUB, conversion not required Amount=%s RUB",
+        amount,
+        )
         return amount
 
     if currency not in ("EUR", "USD"):
+        logger.error("Unsupported currency: %s", currency)
         raise ValueError("Currency must be RUB or EUR or USD")
 
     url = "https://api.apilayer.com/exchangerates_data/convert"
@@ -48,13 +65,26 @@ def get_transaction_amount(
         "amount": amount,
     }
 
+    logger.info("Sending request to exchange rates API")
+
     response = requests.get(url, headers=headers, params=params)
 
     response.raise_for_status()
 
+    logger.info("Exchange rates API request successful")
+
     data = response.json()
 
-    return float(data["result"])
+    result = float(data["result"])
+
+    logger.info(
+        "Converted %.2f %s to %.2f RUB",
+        amount,
+        currency,
+        result,
+    )
+
+    return result
 
 
 def load_transactions(filepath: str) -> list[dict[str, Any]]:
@@ -69,12 +99,20 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     file_path = Path(BASE_DIR / filepath)
 
+    logger.info("Loading transactions from %s", filepath)
+
     try:
         transactions = json.loads(file_path.read_text(encoding="utf-8"))
 
+        logger.info("Successfully loaded transactions file")
+
         if not isinstance(transactions, list):
+            logger.warning("Transactions data is not a list")
             return []
 
+        logger.info("Loaded %s transactions", len(transactions))
         return transactions
+
     except json.decoder.JSONDecodeError:
+        logger.error("Invalid JSON in file %s", filepath)
         return []
