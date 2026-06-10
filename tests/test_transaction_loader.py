@@ -1,6 +1,8 @@
 import json
+from idlelib.iomenu import encoding
 from unittest.mock import patch
 
+import pandas as pd
 import pytest
 
 from src.utils import load_transactions
@@ -142,4 +144,39 @@ def test_load_transaction_from_csv(
     assert result == [
         {"id": '1', "amount": '100', "currency": "RUB"},
         {"id": '2', "amount": '200', "currency": "USD"},
+    ]
+
+
+def test_load_transaction_from_xlsx(
+        tmp_path,
+        monkeypatch
+):
+    data_dir = tmp_path / 'data'
+    data_dir.mkdir()
+
+    file_path = data_dir / "operations.xlsx"
+
+    dataframe = pd.DataFrame(
+        [
+            {"id": 1, "amount": 100, "currency": "RUB"},
+            {"id": 2, "amount": 200, "currency": "USD"},
+        ]
+    )
+
+    dataframe.to_excel(
+        file_path,
+        index=False,
+    )
+
+
+    monkeypatch.setattr(
+        'src.utils.BASE_DIR',
+        tmp_path
+    )
+
+    result = load_transactions("data/operations.xlsx")
+
+    assert result == [
+        {"id": 1, "amount": 100, "currency": "RUB"},
+        {"id": 2, "amount": 200, "currency": "USD"},
     ]
