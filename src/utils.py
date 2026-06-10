@@ -151,6 +151,13 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
         )
         return transactions
 
+    except FileNotFoundError:
+        logger.error(
+            'File not found: %s',
+            filepath,
+        )
+        return []
+
     except json.decoder.JSONDecodeError:
         logger.error("Invalid JSON in file %s", filepath)
         return []
