@@ -113,8 +113,8 @@ def _load_xlsx(
 
 def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
-    Читает JSON-файл и преобразует его содержимое
-    в список словарей с данными транзакций.
+    Загружает транзакции из JSON, CSV или XLSX файла.
+
 
     :param filepath: Относительный путь к файлу с транзакциями.
     :return: Список транзакций.
@@ -123,18 +123,32 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     file_path = Path(BASE_DIR / filepath)
 
-    logger.info("Loading transactions from %s", filepath)
+    logger.info(
+        "Loading transactions from %s",
+        filepath
+    )
 
     try:
-        transactions = json.loads(file_path.read_text(encoding="utf-8"))
+        if file_path.suffix == ".json":
+            transactions = _load_json(file_path)
 
-        logger.info("Successfully loaded transactions file")
+        elif file_path.suffix == ".csv":
+            transactions = _load_csv(file_path)
 
-        if not isinstance(transactions, list):
-            logger.warning("Transactions data is not a list")
+        elif file_path.suffix == ".xlsx":
+            transactions = _load_xlsx(file_path)
+
+        else:
+            logger.error(
+                'Unsupported file format: %s',
+                file_path.suffix,
+            )
+
             return []
 
-        logger.info("Loaded %s transactions", len(transactions))
+        logger.info(
+            "Loaded %s transactions", len(transactions)
+        )
         return transactions
 
     except json.decoder.JSONDecodeError:
