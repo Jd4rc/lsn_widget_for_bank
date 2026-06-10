@@ -3,7 +3,8 @@ import logging
 import os
 from pathlib import Path
 from typing import Any
-
+import csv
+import pandas as pd
 import requests
 from dotenv import load_dotenv
 
@@ -85,6 +86,29 @@ def get_transaction_amount(
     )
 
     return result
+
+
+def _load_json(
+        file_path:Path
+) -> list[dict[str, Any]]:
+    with open(file_path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _load_csv(
+        file_path: Path
+) -> list[dict[str, Any]]:
+    with open(file_path, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return list(reader)
+
+
+def _load_xlsx(
+        file_path: Path
+) -> list[dict[str, Any]]:
+    dataframe = pd.read_excel(file_path)
+
+    return dataframe.to_dict(orient="records")
 
 
 def load_transactions(filepath: str) -> list[dict[str, Any]]:
