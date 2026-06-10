@@ -107,9 +107,12 @@ def test_load_transactions_with_invalid_json(tmp_path, monkeypatch):
     assert result == []
 
 
-@patch("src.utils.Path.read_text")
-def test_load_transactions_with_file_not_found(mock_read_text):
-    mock_read_text.side_effect = FileNotFoundError
+def test_load_transactions_with_file_not_found(tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        "src.utils.BASE_DIR",
+        tmp_path
+    )
 
-    with pytest.raises(FileNotFoundError):
-        load_transactions("data/operations.json")
+    result = load_transactions("data/operation.json")
+
+    assert result == []
