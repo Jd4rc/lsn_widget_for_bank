@@ -32,17 +32,29 @@ def test_load_transactions_with_happy_path(tmp_path, monkeypatch):
 
 
 
-@patch("src.utils.Path.read_text")
-def test_load_transactions_with_empty_data(mock_read_text):
-    data: list[dict[str, str | int]] = []
+def test_load_transactions_with_empty_data(
+        tmp_path, monkeypatch
+):
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
 
-    mock_read_text.return_value = json.dumps(data)
+    file_path = data_dir / "operations.json"
+
+
+    file_path.write_text(
+        '[]',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        "src.utils.BASE_DIR",
+        tmp_path
+    )
 
     result = load_transactions("data/operations.json")
 
     assert result == []
 
-    mock_read_text.assert_called_with(encoding="utf-8")
 
 
 @patch("src.utils.Path.read_text")
