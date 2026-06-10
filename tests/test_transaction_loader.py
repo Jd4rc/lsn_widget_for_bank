@@ -6,20 +6,30 @@ import pytest
 from src.utils import load_transactions
 
 
-@patch("src.utils.Path.read_text")
-def test_load_transactions_with_happy_path(mock_read_text):
+def test_load_transactions_with_happy_path(tmp_path, monkeypatch):
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+
+    file_path = data_dir / "operations.json"
+
     data = [
         {"id": 1},
         {"id": 2},
     ]
 
-    mock_read_text.return_value = json.dumps(data)
+    file_path.write_text(
+        json.dumps(data),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        "src.utils.BASE_DIR", tmp_path
+    )
 
     result = load_transactions("data/operations.json")
 
     assert result == data
 
-    mock_read_text.assert_called_with(encoding="utf-8")
 
 
 @patch("src.utils.Path.read_text")
