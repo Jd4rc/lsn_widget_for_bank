@@ -3,7 +3,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 import requests
@@ -92,7 +92,13 @@ def get_transaction_amount(
 
 def _load_json(file_path: Path) -> list[dict[str, Any]]:
     with open(file_path, encoding="utf-8") as f:
-        return json.load(f)
+
+        data = json.load(f)
+
+        return cast(
+            list[dict[str, Any]],
+            data,
+        )
 
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
@@ -104,7 +110,14 @@ def _load_csv(file_path: Path) -> list[dict[str, Any]]:
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
     dataframe = pd.read_excel(file_path)
 
-    return dataframe.to_dict(orient="records")
+    transactions = dataframe.to_dict(
+        orient="records"
+    )
+
+    return cast(
+        list[dict[str, Any]],
+        transactions,
+    )
 
 
 def load_transactions(filepath: str) -> list[dict[str, Any]]:
