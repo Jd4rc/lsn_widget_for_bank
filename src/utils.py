@@ -1,9 +1,10 @@
+import csv
 import json
 import logging
 import os
 from pathlib import Path
 from typing import Any
-import csv
+
 import pandas as pd
 import requests
 from dotenv import load_dotenv
@@ -44,8 +45,9 @@ def get_transaction_amount(
     )
 
     if currency == "RUB":
-        logger.info("Currency is RUB, conversion not required Amount=%s RUB",
-        amount,
+        logger.info(
+            "Currency is RUB, conversion not required Amount=%s RUB",
+            amount,
         )
         return amount
 
@@ -88,24 +90,18 @@ def get_transaction_amount(
     return result
 
 
-def _load_json(
-        file_path:Path
-) -> list[dict[str, Any]]:
+def _load_json(file_path: Path) -> list[dict[str, Any]]:
     with open(file_path, encoding="utf-8") as f:
         return json.load(f)
 
 
-def _load_csv(
-        file_path: Path
-) -> list[dict[str, Any]]:
+def _load_csv(file_path: Path) -> list[dict[str, Any]]:
     with open(file_path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         return list(reader)
 
 
-def _load_xlsx(
-        file_path: Path
-) -> list[dict[str, Any]]:
+def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
     dataframe = pd.read_excel(file_path)
 
     return dataframe.to_dict(orient="records")
@@ -123,10 +119,7 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     """
     file_path = Path(BASE_DIR / filepath)
 
-    logger.info(
-        "Loading transactions from %s",
-        filepath
-    )
+    logger.info("Loading transactions from %s", filepath)
 
     try:
         if file_path.suffix == ".json":
@@ -140,20 +133,18 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
 
         else:
             logger.error(
-                'Unsupported file format: %s',
+                "Unsupported file format: %s",
                 file_path.suffix,
             )
 
             return []
 
-        logger.info(
-            "Loaded %s transactions", len(transactions)
-        )
+        logger.info("Loaded %s transactions", len(transactions))
         return transactions
 
     except FileNotFoundError:
         logger.error(
-            'File not found: %s',
+            "File not found: %s",
             filepath,
         )
         return []
@@ -164,7 +155,7 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
 
     except Exception as error:
         logger.error(
-            'Error loading transactions: %s',
+            "Error loading transactions: %s",
             error,
         )
         return []
