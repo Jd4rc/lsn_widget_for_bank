@@ -116,3 +116,30 @@ def test_load_transactions_with_file_not_found(tmp_path, monkeypatch):
     result = load_transactions("data/operation.json")
 
     assert result == []
+
+
+def test_load_transaction_from_csv(
+        tmp_path,
+        monkeypatch,
+):
+    data_dir = tmp_path / 'data'
+    data_dir.mkdir()
+
+    file_path = data_dir / "operations.csv"
+
+    file_path.write_text(
+        'id,amount,currency\n1,100,RUB\n2,200,USD\n',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        'src.utils.BASE_DIR',
+        tmp_path
+    )
+
+    result = load_transactions("data/operations.csv")
+
+    assert result == [
+        {"id": '1', "amount": '100', "currency": "RUB"},
+        {"id": '2', "amount": '200', "currency": "USD"},
+    ]
