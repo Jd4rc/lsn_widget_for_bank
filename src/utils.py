@@ -161,3 +161,10 @@ def load_transactions(filepath: str) -> list[dict[str, Any]]:
     except json.decoder.JSONDecodeError:
         logger.error("Invalid JSON in file %s", filepath)
         return []
+
+    except Exception as error:
+        logger.error(
+            'Error loading transactions: %s',
+            error,
+        )
+        return []
