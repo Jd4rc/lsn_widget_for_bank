@@ -103,9 +103,39 @@ git clone git@github.com:Jd4rc/lsn_widget_for_bank.git
 
 ## Работа с транзакциями
 
-### Загрузка транзакций из JSON
+## Загрузка транзакций
 
-Функция `load_transactions()` загружает данные из JSON-файла и возвращает список транзакций.
+Проект поддерживает загрузку транзакций из файлов следующих форматов:
+
+* `.json`
+* `.csv`
+* `.xlsx`
+
+Основная функция:
+
+```
+load_transactions(filepath: str) -> list[dict[str, Any]]
+```
+
+Функция определяет формат файла по расширению и вызывает нужный загрузчик:
+
+* JSON читается через модуль `json`
+* CSV читается через встроенный модуль `csv`
+* XLSX читается через библиотеку `pandas`
+
+Пример использования:
+
+```
+transactions = load_transactions("data/operations.json")
+transactions = load_transactions("data/transactions.csv")
+transactions = load_transactions("data/transactions_excel.xlsx")
+```
+
+Если файл не найден, содержит некорректные данные или формат не поддерживается, функция возвращает пустой список.
+
+## Зависимости
+
+Для работы с Excel-файлами используется `pandas` и `openpyxl`.
 
 ### Конвертация суммы транзакции
 
