@@ -20,6 +20,7 @@ def test_get_transaction_amount_with_rub():
 
     assert result == 31957.58
 
+
 @patch("src.utils.EXCHANGE_RATES_API_KEY", "fake_api_key")
 @patch("src.utils.requests.get")
 def test_get_transaction_amount_with_no_rub(mock_get):
