@@ -102,9 +102,19 @@ def _load_json(file_path: Path) -> list[dict[str, Any]]:
 
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
+    keys = ["id", "state", "date", "amount", "currency_name", "currency_code", "from", "to", "description"]
+    result = []
+
     with open(file_path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        return list(reader)
+        for row in reader:
+            # row — это словарь с одним ключом (заголовком)
+            line = list(row.values())[0]
+            fields = line.split(";")
+            if len(fields) == len(keys):
+                item = dict(zip(keys, fields))
+                result.append(item)
+        return result
 
 
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
