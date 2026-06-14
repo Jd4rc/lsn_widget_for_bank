@@ -1,3 +1,8 @@
+import json
+import re
+
+
+
 def filter_by_state(
     list_to_filter: list[dict[str, str | int]], key_to_filter: str = "EXECUTED"
 ) -> list[dict[str, str | int]]:
@@ -25,3 +30,11 @@ def sort_by_date(unsorted_data: list[dict[str, str | int]], reverse: bool = True
     sorted_data = sorted(unsorted_data, key=lambda item: item["date"], reverse=reverse)
 
     return sorted_data
+
+
+def process_bank_search(
+    data: list[dict],
+        search: str
+) -> list[dict]:
+    pattern = re.compile(re.escape(search), re.IGNORECASE)
+    return [item for item in data if pattern.search(item.get('description', ''))]
