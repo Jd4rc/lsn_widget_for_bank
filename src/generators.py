@@ -12,18 +12,33 @@ def filter_by_currency(
     if not isinstance(data, list):
         raise TypeError("тип входных данных должен быть список")
 
+    currency = currency.strip().upper()
     for x in data:
         if not isinstance(x, dict):
             raise TypeError("тип элементов входных данных должен быть словарь")
-        if not isinstance(x.get("operationAmount"), dict):
-            raise TypeError('тип "operationAmount" данных должен быть словарь')
-        if not x["operationAmount"].get("currency"):
-            raise KeyError('для фильтрации необходимо наличие ключа "currency"')
-        if not isinstance((x["operationAmount"]).get("currency"), dict):
-            raise TypeError('тип ключа "currency" должен быть словарем')
-        if not x["operationAmount"]["currency"].get("code"):
-            raise KeyError('для фильтрации необходимо наличие ключа "code"')
-        if x["operationAmount"]["currency"]["code"] == currency:
+
+        operation_amount = x.get("operationAmount")
+
+        if isinstance(operation_amount, dict):
+
+            # raise TypeError('тип "operationAmount" данных должен быть словарь')
+            operation_currency = (
+                operation_amount
+                .get("currency", {})
+                .get('code')
+            )
+        else:
+            operation_currency = x.get("currency_code")
+
+        # if not x["operationAmount"].get("currency"):
+        #     raise KeyError('для фильтрации необходимо наличие ключа "currency"')
+        # if not isinstance((x["operationAmount"]).get("currency"), dict):
+        #     raise TypeError('тип ключа "currency" должен быть словарем')
+        # if not x["operationAmount"]["currency"].get("code"):
+        #     raise KeyError('для фильтрации необходимо наличие ключа "code"')
+        # if x["operationAmount"]["currency"]["code"] == currency:
+
+        if str(operation_currency).strip().upper() == currency:
             yield x
 
 
