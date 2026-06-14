@@ -38,3 +38,23 @@ def process_bank_search(
 ) -> list[dict]:
     pattern = re.compile(re.escape(search), re.IGNORECASE)
     return [item for item in data if pattern.search(item.get('description', ''))]
+
+
+def process_bank_operations(
+        data: list[dict],
+        categories: list[str]
+) -> dict:
+    result = {
+        category: 0 for category in categories
+    }
+
+    for item in data:
+        description = item.get(
+            'description',
+            ''
+        ).lower()
+        for category in categories:
+            if category.lower() in description:
+                result[category] += 1
+
+    return result
