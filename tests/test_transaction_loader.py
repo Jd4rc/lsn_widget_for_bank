@@ -102,7 +102,7 @@ def test_load_transaction_from_csv(
     file_path = data_dir / "operations.csv"
 
     file_path.write_text(
-        "id,amount,currency\n1,100,RUB\n2,200,USD\n",
+        "id;amount;currency\n1;100;RUB\n2;200;USD\n",
         encoding="utf-8",
     )
 
