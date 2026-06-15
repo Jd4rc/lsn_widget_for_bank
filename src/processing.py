@@ -1,6 +1,4 @@
-import json
 import re
-
 
 
 def filter_by_state(
@@ -30,32 +28,21 @@ def sort_by_date(unsorted_data: list[dict[str, str | int]], reverse: bool = True
     по ключу 'date'
     """
 
-    sorted_data = sorted(unsorted_data, key=lambda item: item.get("date", "")   , reverse=reverse)
+    sorted_data = sorted(unsorted_data, key=lambda item: item.get("date", ""), reverse=reverse)
 
     return sorted_data
 
 
-def process_bank_search(
-    data: list[dict],
-    search: str
-) -> list[dict]:
+def process_bank_search(data: list[dict], search: str) -> list[dict]:
     pattern = re.compile(re.escape(search), re.IGNORECASE)
-    return [item for item in data if pattern.search(item.get('description', ''))]
+    return [item for item in data if pattern.search(item.get("description", ""))]
 
 
-def process_bank_operations(
-        data: list[dict],
-        categories: list[str]
-) -> dict:
-    result = {
-        category: 0 for category in categories
-    }
+def process_bank_operations(data: list[dict], categories: list[str]) -> dict:
+    result = {category: 0 for category in categories}
 
     for item in data:
-        description = item.get(
-            'description',
-            ''
-        ).lower()
+        description = item.get("description", "").lower()
         for category in categories:
             if category.lower() in description:
                 result[category] += 1

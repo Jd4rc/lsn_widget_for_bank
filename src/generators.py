@@ -20,15 +20,9 @@ def filter_by_currency(
         operation_amount = x.get("operationAmount")
 
         if isinstance(operation_amount, dict):
-
-            # raise TypeError('тип "operationAmount" данных должен быть словарь')
-            operation_currency = (
-                operation_amount
-                .get("currency", {})
-                .get('code')
-            )
+            operation_currency = operation_amount["currency"]["code"]
         else:
-            operation_currency = x.get("currency_code")
+            operation_currency = x.get("currency_code", x.get("currency"))
 
         # if not x["operationAmount"].get("currency"):
         #     raise KeyError('для фильтрации необходимо наличие ключа "currency"')

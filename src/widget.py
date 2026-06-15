@@ -23,12 +23,7 @@ def get_date(date: str) -> str | None:
     import re
 
     pattern = (
-        r"(?P<year>\d{4})-"
-        r"(?P<month>\d{2})-"
-        r"(?P<day>\d{2})"
-        r"T(\d{2}):(\d{2}):(\d{2})"
-        r"(\.\d{6})"
-        r"?Z?"
+        r"(?P<year>\d{4})-" r"(?P<month>\d{2})-" r"(?P<day>\d{2})" r"T(\d{2}):(\d{2}):(\d{2})" r"(\.\d{6})" r"?Z?"
     )
 
     if not re.fullmatch(pattern, date):
