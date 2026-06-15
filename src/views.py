@@ -29,9 +29,8 @@ def format_account(account: str | float | None) -> str:
 
     account = str(account)
 
-    if account == 'nan':
-        return 'Нет данных'
-
+    if account == "nan":
+        return "Нет данных"
 
     if account.startswith("Счет"):
         number = account.split()[-1]
