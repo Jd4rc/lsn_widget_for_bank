@@ -49,6 +49,20 @@ def process_bank_search(data: list[dict], search: str) -> list[dict]:
 
 
 def process_bank_operations(data: list[dict], categories: list[str]) -> dict:
+    """
+      Подсчитывает количество операций по заданным категориям.
+
+      Категория считается найденной, если её название содержится
+      в описании операции без учёта регистра.
+
+      Args:
+          data: Список банковских операций.
+          categories: Список категорий для анализа.
+
+      Returns:
+          Словарь, где ключами являются названия категорий,
+          а значениями — количество найденных операций.
+    """
     result = {category: 0 for category in categories}
 
     for item in data:
