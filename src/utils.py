@@ -104,27 +104,17 @@ def _load_json(file_path: Path) -> list[dict[str, Any]]:
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
 
-    print(file_path)
-    print(file_path.exists())
+    # print(file_path)
+    # print(file_path.exists())
+    #
+    # keys = ["id", "state", "date", "amount", "currency_name", "currency_code", "from", "to", "description"]
 
-    keys = [
-        "id",
-        "state",
-        "date",
-        "amount",
-        "currency_name",
-        "currency_code",
-        "from",
-        "to",
-        "description"
-    ]
-
-    with open(file_path, encoding="utf-8", newline='') as f:
+    with open(file_path, encoding="utf-8", newline="") as f:
 
         first_line = f.readline().strip()
         f.seek(0)
 
-        if first_line.startswith('id;'):
+        if first_line.startswith("id;"):
             reader = csv.DictReader(f, delimiter=";")
             return list(reader)
 
@@ -140,6 +130,8 @@ def _load_csv(file_path: Path) -> list[dict[str, Any]]:
         #     for row in rows
         #     if len(row) == len(keys)
         # ]
+
+    return []
 
 
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
