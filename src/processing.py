@@ -34,6 +34,16 @@ def sort_by_date(unsorted_data: list[dict[str, str | int]], reverse: bool = True
 
 
 def process_bank_search(data: list[dict], search: str) -> list[dict]:
+    """
+        Фильтрует банковские операции по строке поиска в описании.
+
+        Args:
+            data: Список банковских операций.
+            search: Строка для поиска в описании операции.
+
+        Returns:
+            Список операций, описание которых содержит указанную строку.
+    """
     pattern = re.compile(re.escape(search), re.IGNORECASE)
     return [item for item in data if pattern.search(item.get("description", ""))]
 
