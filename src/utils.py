@@ -92,6 +92,7 @@ def get_transaction_amount(
 
 
 def _load_json(file_path: Path) -> list[dict[str, Any]]:
+    """Загружает список транзакций из JSON-файла."""
     with open(file_path, encoding="utf-8") as f:
 
         data = json.load(f)
@@ -103,6 +104,7 @@ def _load_json(file_path: Path) -> list[dict[str, Any]]:
 
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
+    """Загружает список транзакций из csv-файла."""
 
     # print(file_path)
     # print(file_path.exists())
@@ -135,6 +137,7 @@ def _load_csv(file_path: Path) -> list[dict[str, Any]]:
 
 
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
+    """Загружает список транзакций из xlsx-файла."""
     dataframe = pd.read_excel(file_path)
 
     transactions = dataframe.to_dict(orient="records")
