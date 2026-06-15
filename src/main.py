@@ -3,10 +3,9 @@ from pathlib import Path
 from src.generators import filter_by_currency
 from src.processing import process_bank_search
 from src.processing import sort_by_date
-from src.utils import _load_csv
-from src.utils import _load_json
-from src.utils import _load_xlsx
+from src.utils import load_transactions
 from src.views import print_operations
+from src.utils import BASE_DIR
 
 
 def main():
@@ -18,13 +17,13 @@ def main():
     file_choice = input("Пользователь: ")
     if file_choice == "1":
         print("Для обработки выбран JSON-файл.")
-        data = _load_json(Path("../data/operations.json"))
+        data = load_transactions('data/operations.json')
     elif file_choice == "2":
         print("Для обработки выбран CSV-файл.")
-        data = _load_csv(Path("../data/transactions.csv"))
+        data = load_transactions('data/transactions.csv')
     elif file_choice == "3":
         print("Для обработки выбран XLSX-файл.")
-        data = _load_xlsx(Path("../data/transactions_excel.xlsx"))
+        data = load_transactions('data/transactions_excel.xlsx')
     else:
         print("Некорректный выбор. Завершение работы.")
         return
