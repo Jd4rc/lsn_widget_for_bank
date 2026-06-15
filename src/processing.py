@@ -1,4 +1,5 @@
 import re
+from collections import Counter
 
 
 def filter_by_state(
@@ -63,12 +64,19 @@ def process_bank_operations(data: list[dict], categories: list[str]) -> dict:
           Словарь, где ключами являются названия категорий,
           а значениями — количество найденных операций.
     """
-    result = {category: 0 for category in categories}
+    matches = []
 
     for item in data:
         description = item.get("description", "").lower()
+
+
         for category in categories:
             if category.lower() in description:
-                result[category] += 1
+                matches.append(category)
 
-    return result
+        counter = Counter(matches)
+
+    return {
+        category: counter.get(category, 0)
+        for category in categories
+    }
