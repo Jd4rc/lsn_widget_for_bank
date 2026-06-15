@@ -16,6 +16,7 @@ def test_process_bank_search_found_transactions():
         {"description": "Перевод с карты на карту"},
     ]
 
+
 def test_process_bank_search_ignore_case():
     data = [
         {"description": "Перевод организации"},
@@ -28,6 +29,7 @@ def test_process_bank_search_ignore_case():
         {"description": "Перевод организации"},
     ]
 
+
 def test_process_bank_search_not_found():
     data = [
         {"description": "Перевод организации"},
@@ -38,6 +40,7 @@ def test_process_bank_search_not_found():
 
     assert result == []
 
+
 def test_process_bank_operations_counts_categories():
     data = [
         {"description": "Перевод организации"},
@@ -46,14 +49,11 @@ def test_process_bank_operations_counts_categories():
         {"description": "Перевод со счета на счет"},
     ]
 
-    categories = [
-        'Открытие'
-    ]
+    categories = ["Открытие"]
     result = process_bank_operations(data, categories)
 
-    assert result == {
-            "Открытие": 1
-        }
+    assert result == {"Открытие": 1}
+
 
 def test_process_bank_operations_returns_zero_for_missing_category():
     data = [
@@ -69,6 +69,7 @@ def test_process_bank_operations_returns_zero_for_missing_category():
         "Перевод": 1,
         "Снятие наличных": 0,
     }
+
 
 def test_process_bank_operations_ignore_case():
     data = [
