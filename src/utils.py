@@ -3,7 +3,8 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
+from typing import cast
 
 import pandas as pd
 import requests
@@ -102,27 +103,40 @@ def _load_json(file_path: Path) -> list[dict[str, Any]]:
 
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
-    keys = ["id", "state", "date", "amount", "currency_name", "currency_code", "from", "to", "description"]
-    result = []
+    keys = [
+        "id",
+        "state",
+        "date",
+        "amount",
+        "currency_name",
+        "currency_code",
+        "from",
+        "to",
+        "description"
+    ]
 
-    with open(file_path, encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            # row — это словарь с одним ключом (заголовком)
-            line = list(row.values())[0]
-            fields = line.split(";")
-            if len(fields) == len(keys):
-                item = dict(zip(keys, fields))
-                result.append(item)
-        return result
+    with open(file_path, encoding="utf-8", newline='') as f:
+
+        first_line = f.readline().strip()
+        f.seek(0)
+
+        if first_line.startswith('id,'):
+            reader = csv.DictReader(f)
+            return list(reader)
+
+        reader = csv.reader(f)
+
+        return [
+            dict(zip(keys, row))
+            for row in reader
+            if len(row) == len(keys)
+        ]
 
 
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
     dataframe = pd.read_excel(file_path)
 
-    transactions = dataframe.to_dict(
-        orient="records"
-    )
+    transactions = dataframe.to_dict(orient="records")
 
     return cast(
         list[dict[str, Any]],
