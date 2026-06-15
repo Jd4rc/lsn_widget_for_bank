@@ -2,7 +2,7 @@ from pathlib import Path
 from src.utils import _load_json, _load_csv, _load_xlsx
 from src.generators import filter_by_currency
 from src.processing import process_bank_search, sort_by_date
-from pprint import pprint
+from src.views import print_operations
 
 
 
@@ -25,8 +25,6 @@ def main():
     else:
         print('Некорректный выбор. Завершение работы.')
         return
-    # Допустим, data уже загружен
-    print("После загрузки:", len(data))
 
     data = [
         item
@@ -57,9 +55,6 @@ def main():
             break
         else:
             print(f'Статус операции "{status}" недоступен.')
-        # фильтр по статусу
-        print("После статуса:", len(data))
-    # Далее реализуйте сортировку, фильтрацию по валюте, поиску по описанию и вывод результата
 
     if input("Оставить только рублёвые операции? (да/нет): ").lower() == 'да':
         data = list(filter_by_currency(data, 'RUB'))
@@ -78,9 +73,9 @@ def main():
         data = sort_by_date(data, reverse=(order == 'убывание'))
 
     if data:
-        pprint(data)  # красивая печать
+        print_operations(data)
     else:
-        print("Нет операций, соответствующих условиям.")
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 
 if __name__ == '__main__':
     main()
