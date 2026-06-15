@@ -23,18 +23,23 @@ def format_operation(operation: dict) -> str:
     return f"{date} {description}\n" f"{from_account} -> {to_account}\n" f"Сумма: {amount} {currency}"
 
 
-def format_account(account: str) -> str:
+def format_account(account: str | float | None) -> str:
     if not account:
-        return ""
+        return "Нет данных"
+
+    account = str(account)
+
+    if account == 'nan':
+        return 'Нет данных'
+
 
     if account.startswith("Счет"):
         number = account.split()[-1]
         return f"Счет {get_mask_account(number)}"
 
     parts = account.split()
-
-    card_number = parts[-1]
     card_name = " ".join(parts[:-1])
+    card_number = parts[-1]
 
     return f"{card_name} {get_mask_card_number(card_number)}"
 
