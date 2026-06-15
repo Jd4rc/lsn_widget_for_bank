@@ -37,3 +37,50 @@ def test_process_bank_search_not_found():
     result = process_bank_search(data, "магазин")
 
     assert result == []
+
+def test_process_bank_operations_counts_categories():
+    data = [
+        {"description": "Перевод организации"},
+        {"description": "Перевод с карты на карту"},
+        {"description": "Открытие вклада"},
+        {"description": "Перевод со счета на счет"},
+    ]
+
+    categories = [
+        'Открытие'
+    ]
+    result = process_bank_operations(data, categories)
+
+    assert result == {
+            "Открытие": 1
+        }
+
+def test_process_bank_operations_returns_zero_for_missing_category():
+    data = [
+        {"description": "Перевод организации"},
+        {"description": "Открытие вклада"},
+    ]
+
+    categories = ["Перевод", "Снятие наличных"]
+
+    result = process_bank_operations(data, categories)
+
+    assert result == {
+        "Перевод": 1,
+        "Снятие наличных": 0,
+    }
+
+def test_process_bank_operations_ignore_case():
+    data = [
+        {"description": "перевод организации"},
+        {"description": "ПЕРЕВОД с карты на карту"},
+        {"description": "Открытие вклада"},
+    ]
+
+    categories = ["Перевод"]
+
+    result = process_bank_operations(data, categories)
+
+    assert result == {
+        "Перевод": 2,
+    }
