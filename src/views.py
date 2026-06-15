@@ -20,17 +20,19 @@ def format_operation(operation: dict) -> str:
         amount = operation.get("amount")
         currency = operation.get("currency_code")
 
-    return f"{date} {description}\n" f"{from_account} -> {to_account}\n" f"Сумма: {amount} {currency}"
+    account_info = f"{from_account} -> {to_account}" if from_account and to_account else from_account or to_account
+
+    return f"{date} {description}\n" f"{account_info}\n" f"Сумма: {amount} {currency}"
 
 
 def format_account(account: str | float | None) -> str:
     if not account:
-        return "Нет данных"
+        return ""
 
     account = str(account)
 
     if account == "nan":
-        return "Нет данных"
+        return ""
 
     if account.startswith("Счет"):
         number = account.split()[-1]
