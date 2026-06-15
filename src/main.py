@@ -26,7 +26,6 @@ def main():
         return
 
     data = [item for item in data if isinstance(item.get("operationAmount"), dict) or item.get("amount")]
-    print("После проверки суммы:", len(data))
 
     statuses = ["EXECUTED", "CANCELED", "PENDING"]
     while True:
@@ -43,21 +42,20 @@ def main():
         else:
             print(f'Статус операции "{status}" недоступен.')
 
-    if input("Оставить только рублёвые операции? (да/нет): ").lower() == "да":
-        data = list(filter_by_currency(data, "RUB"))
-
-    # фильтр по валюте
-    print("После валюты:", len(data))
-
-    # Фильтрация по описанию
-    if input("Фильтровать по слову в описании? (да/нет): ").lower() == "да":
-        word = input("Введите слово для фильтрации: ")
-        data = process_bank_search(data, word)
-
     # 4. Сортировка по дате
     if input("Отсортировать операции по дате? (да/нет): ").lower() == "да":
         order = input("Порядок сортировки: возрастание/убывание? ")
         data = sort_by_date(data, reverse=(order == "убывание"))
+
+    if input("Оставить только рублёвые операции? (да/нет): ").lower() == "да":
+        data = list(filter_by_currency(data, "RUB"))
+
+        # Фильтрация по описанию
+    if input("Фильтровать по слову в описании? (да/нет): ").lower() == "да":
+        word = input("Введите слово для фильтрации: ")
+        data = process_bank_search(data, word)
+
+    print("Распечатываю итоговый список транзакций...")
 
     if data:
         print_operations(data)
