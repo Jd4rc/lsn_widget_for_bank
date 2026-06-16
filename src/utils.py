@@ -3,7 +3,8 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
+from typing import cast
 
 import pandas as pd
 import requests
@@ -91,6 +92,7 @@ def get_transaction_amount(
 
 
 def _load_json(file_path: Path) -> list[dict[str, Any]]:
+    """Загружает список транзакций из JSON-файла."""
     with open(file_path, encoding="utf-8") as f:
 
         data = json.load(f)
@@ -102,17 +104,43 @@ def _load_json(file_path: Path) -> list[dict[str, Any]]:
 
 
 def _load_csv(file_path: Path) -> list[dict[str, Any]]:
-    with open(file_path, encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        return list(reader)
+    """Загружает список транзакций из csv-файла."""
+
+    # print(file_path)
+    # print(file_path.exists())
+    #
+    # keys = ["id", "state", "date", "amount", "currency_name", "currency_code", "from", "to", "description"]
+
+    with open(file_path, encoding="utf-8", newline="") as f:
+
+        first_line = f.readline().strip()
+        f.seek(0)
+
+        if first_line.startswith("id;"):
+            reader = csv.DictReader(f, delimiter=";")
+            return list(reader)
+
+        # reader = csv.reader(f, delimiter=";")
+        #
+        # rows = list(reader)
+        #
+        # print("Количество строк:", len(rows))
+        # print("Первая строка:", rows[0] if rows else None)
+        #
+        # return [
+        #     dict(zip(keys, row))
+        #     for row in rows
+        #     if len(row) == len(keys)
+        # ]
+
+    return []
 
 
 def _load_xlsx(file_path: Path) -> list[dict[str, Any]]:
+    """Загружает список транзакций из xlsx-файла."""
     dataframe = pd.read_excel(file_path)
 
-    transactions = dataframe.to_dict(
-        orient="records"
-    )
+    transactions = dataframe.to_dict(orient="records")
 
     return cast(
         list[dict[str, Any]],
